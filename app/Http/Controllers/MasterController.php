@@ -27,10 +27,9 @@ class MasterController extends Controller
             ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
             ->join('users', 'masters.user_id', '=', 'users.id')
             ->leftJoin('reviews as reviews', 'masters.id', '=', 'reviews.master_id')
-            ->select('masters.first_name','masters.last_name', 'masters.city', 'masters.gender', 'masters.user_id', 'masters.img',
-                'companies.company_name', 'specializations.specialization_name', 'users.name', DB::raw('AVG(reviews.rating) as ratings_average'),
+            ->groupBy('masters.id', 'masters.company_id')
+            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name', DB::raw('AVG(reviews.rating) as ratings_average'),
                 DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
-             ->groupBy('masters.id', 'masters.company_id')
              ->orderBy('no_of_reviews', 'DESC')
             ->paginate(8);
 
@@ -165,9 +164,8 @@ class MasterController extends Controller
             ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
             ->join('users', 'masters.user_id', '=', 'users.id')
             ->leftJoin('reviews as reviews', 'masters.id', '=', 'reviews.master_id')
-            ->select('masters.first_name','masters.last_name', 'masters.city', 'masters.gender', 'masters.user_id', 'masters.img',
-                'companies.company_name', 'specializations.specialization_name', 'users.name', DB::raw('AVG(reviews.rating) as ratings_average'),
-                DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
+            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name',
+                DB::raw('AVG(reviews.rating) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
             ->where('users.id', $user->id)
             ->groupBy('masters.id', 'masters.company_id')
             ->orderBy('no_of_reviews', 'DESC')

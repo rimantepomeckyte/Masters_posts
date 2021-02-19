@@ -18,8 +18,7 @@ class SearchController extends Controller
             ->join('users', 'masters.user_id', '=', 'users.id')
             ->leftJoin('reviews as reviews', 'masters.id', '=', 'reviews.master_id')
             ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name',
-                DB::raw('ROUND(AVG(reviews.rating)) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
-            ->groupBy('masters.id', 'masters.company_id');
+                DB::raw('ROUND(AVG(reviews.rating)) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews'));
         $uniqueCompanies  = Company::all();
         $uniqueSpecializations  = Specialization::all();
         $uniqueCities = DB::table('masters')->select('masters.city')->distinct()->get();

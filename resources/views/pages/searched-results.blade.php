@@ -5,7 +5,6 @@
     <div class="container my-4">
         <form method="get" action="/search" class="row rounded pb-2 pt-4 px-2 d-flex justify-content-between mb-3"
               style="background-color: #00aa90" enctype="multipart/form-data">
-            {{csrf_field()}}
             <div class="form-group col-lg-2 col-md-4">
                 <input type="text" name="search" id="search" class="form-control" placeholder="Paieška..."/>
             </div>

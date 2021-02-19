@@ -1,0 +1,37 @@
+body{
+    background-image: url("resources/img/light-grey-background-02.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.stars {
+    display: inline-block;
+input {
+    display: none;
+}
+label {
+    font-size: 30px;
+}
+input:checked ~ label {
+    color: #efd70c;
+}}
+.stars * {
+    float: right;
+}
+
+.home-img{
+    width: 115px;
+}
+@media (max-width: 1023px) {
+    .home-img{
+        width: 75px;
+    }
+}
+@media (max-width: 767px) {
+    .home-img{
+        width: 45px;
+    }
+    .btn-more{
+        height: 30px;
+    }
+}

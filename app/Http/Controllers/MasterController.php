@@ -112,8 +112,6 @@ class MasterController extends Controller
             ->join('masters', 'masters.id', '=', 'reviews.master_id')
             ->select([DB::raw('AVG(reviews.rating) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews')])
             ->where('masters.id', $master->id)
-            ->orderBy('no_of_reviews', 'DESC')
-            ->groupBy('master_id')
             ->get();
 
         return view('pages.master', compact('masters', 'comments', 'rating'));
@@ -165,8 +163,6 @@ class MasterController extends Controller
             ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name',
                 DB::raw('AVG(reviews.rating) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
             ->where('users.id', $user->id)
-            ->groupBy('masters.id', 'masters.company_id')
-            ->orderBy('no_of_reviews', 'DESC')
             ->paginate(8);
 
         return view('pages.byuser', compact('masters'));

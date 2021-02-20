@@ -76,7 +76,7 @@
                         @else
                             <img src="https://www.pngkey.com/png/full/176-1765817_business-woman-member-icon-female.png"
                                  alt="profile image"
-                                 class="home-img" />
+                                 style="width: 95px" />
                         @endif
                     </div>
                     <div class="col-md-4 col-6 ml-md-3">

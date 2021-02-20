@@ -76,14 +76,15 @@
             <div class="form-group col-4">
                 <label for="city" class="align-self-center font-weight-bold">Miestas:</label>
                 <input type="text" name="city" class="form-control" id="city" placeholder="Miesto pavadinimas"
-                value="{{$master->city}}">
+                       value="{{$master->city}}">
             </div>
 
         </div>
         <div class="form-group row d-flex justify-content-center">
             <div class="col-8">
                 <label for="master-description" class="font-weight-bold align-self-center">Jūsų skelbimo žinutė:</label>
-                <textarea name="description" class="form-control" id="master-description" rows="3">{{$master->description}}</textarea>
+                <textarea name="description" class="form-control" id="master-description"
+                          rows="3">{{$master->description}}</textarea>
             </div>
         </div>
         <div class="form-group row d-flex justify-content-center">

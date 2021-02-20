@@ -11,12 +11,14 @@
                         @if($master->img)
                             <img src="/{{$master->img}}" class="home-img" alt="profile image"/>
                         @else
-                            <img src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"
-                                 class="home-img" alt="profile image"/>
+                            <img
+                                src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"
+                                class="home-img" alt="profile image"/>
                         @endif
                     </div>
                     <div class="col-md-4 col-6">
-                        <div class="row font-weight-bolder">{{ucfirst($master->first_name)}} {{ucfirst($master->last_name)}}</div>
+                        <div
+                            class="row font-weight-bolder">{{ucfirst($master->first_name)}} {{ucfirst($master->last_name)}}</div>
                         <div class="row font-weight-bolder">{{ucfirst($master->specialization_name)}}</div>
                         <div class="row font-weight-bolder">{{ucfirst($master->company_name)}}</div>
                         <div class="row font-weight-bolder">{{ucfirst($master->city)}}</div>
@@ -51,9 +53,9 @@
                 </div>
             </div>
         @endforeach
-            <div  class="d-flex justify-content-center mt-3">
-                {{$masters->links()}}
-            </div>
+        <div class="d-flex justify-content-center mt-3">
+            {{$masters->links()}}
+        </div>
     </div>
 
 @endsection

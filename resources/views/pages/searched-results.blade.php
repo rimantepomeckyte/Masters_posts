@@ -52,7 +52,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-info rounded font-weight-bold text-white">Ieškoti</button></div>
+                <button type="submit" class="btn btn-info rounded font-weight-bold text-white">Ieškoti</button>
+            </div>
         </form>
 
 
@@ -69,12 +70,15 @@
                         @if($master->img)
                             <img src="{{$master->img}}" class="home-img" alt="profile image"/>
                         @else
-                            <img src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"
-                                 class="home-img" alt="profile image"/>
+                            <img
+                                src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"
+                                class="home-img" alt="profile image"/>
                         @endif
                     </div>
                     <div class="col-md-4 col-6 ml-md-3">
-                        <div class="row font-weight-bolder"> <a href="/master/{{$master->id}}">{{ucfirst($master->first_name)}} {{ucfirst($master->last_name)}}</a></div>
+                        <div class="row font-weight-bolder"><a
+                                href="/master/{{$master->id}}">{{ucfirst($master->first_name)}} {{ucfirst($master->last_name)}}</a>
+                        </div>
                         <div class="row font-weight-bolder">{{ucfirst($master->specialization_name)}}</div>
                         <div class="row font-weight-bolder">{{ucfirst($master->company_name)}}</div>
                         <div class="row font-weight-bolder">{{ucfirst($master->city)}}</div>

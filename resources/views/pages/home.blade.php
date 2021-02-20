@@ -111,8 +111,6 @@
             </div>
         @endforeach
 
-        <div class="d-flex justify-content-center mt-3">
-            {{$masters->links()}}
-        </div>
+
     </div>
 @endsection

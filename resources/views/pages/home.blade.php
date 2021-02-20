@@ -68,7 +68,7 @@
                 <div class="row p-3">
                     <div class="col-lg-3 col-md-4 col-5">
                         @if($master->img)
-                            <img src="{{$master->img}}" class="home-img" alt="profile image"/>
+                            <img src="/{{$master->img}}" class="home-img" alt="profile image"/>
                         @elseif($master->gender == 'vyras')
                             <img src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"
                                  alt="profile image"

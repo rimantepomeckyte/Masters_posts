@@ -22,8 +22,7 @@ class MasterController extends Controller
 
     public function index()
     {
-        $masters=Master::all();
-            /*$masters = DB::table('masters')
+            $masters = DB::table('masters')
             ->join('companies', 'masters.company_id', '=', 'companies.id')
             ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
             ->join('users', 'masters.user_id', '=', 'users.id')
@@ -32,9 +31,9 @@ class MasterController extends Controller
                 'masters.img as img', 'masters.user_id as user_id', 'companies.company_name as company_name', 'specializations.specialization_name as specialization_name',
                 'users.name as name', 'masters.created_at as created_at', DB::raw('AVG(reviews.rating) as ratings_average'),
                 DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
-             ->groupBy('masters.id', 'masters.company_id')
-             ->orderBy('no_of_reviews', 'DESC')
-            ->paginate(8);*/
+             ->groupBy('masters.id')
+             //->orderBy('no_of_reviews', 'DESC')
+            ->paginate(8);
 
         $uniqueCompanies  = Company::all();
         $uniqueSpecializations  = Specialization::all();

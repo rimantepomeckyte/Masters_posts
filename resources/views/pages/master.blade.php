@@ -13,15 +13,19 @@
             @if(Auth::check())
                 <div class="row d-flex justify-content-end">
                     <a href="/edit/master/{{$master->id}}" class="mr-3 btn btn-info">Redaguoti</a>
-                    <a href="/delete/master/{{$master->id}}" class="btn btn-danger">Ištrinti</a>
+                    <a onclick="return confirm('Ar tikrai norite ištrinti šį skelbimą?')" href="/delete/master/{{$master->id}}" class="btn btn-danger">Ištrinti</a>
                 </div>
             @endif
             <div class="row mx-auto mt-4">
                 <div class="col-lg-3 col-md-5">
                     @if($master->img)
                         <img src="/{{$master->img}}" alt="profile image" style="width: 250px"/>
-                    @else
+                    @elseif($master->gender == 'vyras')
                         <img src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"
+                             alt="profile image"
+                             style="width: 250px"/>
+                    @else
+                        <img src="https://www.pngkey.com/png/full/176-1765817_business-woman-member-icon-female.png"
                              alt="profile image"
                              style="width: 250px"/>
                     @endif

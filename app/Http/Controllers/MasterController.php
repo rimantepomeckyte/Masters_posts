@@ -27,9 +27,8 @@ class MasterController extends Controller
             ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
             ->join('users', 'masters.user_id', '=', 'users.id')
             ->leftJoin('reviews as reviews', 'masters.id', '=', 'reviews.master_id')
-            ->select('masters.id as id', 'masters.first_name as first_name', 'masters.last_name as last_name', 'masters.city as city',
-                'masters.img as img', 'masters.user_id as user_id', 'companies.company_name as company_name', 'specializations.specialization_name as specialization_name',
-                'users.name as name', 'masters.created_at as created_at', DB::raw('AVG(reviews.rating) as ratings_average'),
+            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name',
+                'users.name', DB::raw('AVG(reviews.rating) as ratings_average'),
                 DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
              ->groupBy('masters.id', 'companies.company_name', 'specializations.specialization_name', 'users.name', 'reviews.master_id')
              ->orderBy('no_of_reviews', 'DESC')
@@ -101,8 +100,7 @@ class MasterController extends Controller
             ->join('companies', 'masters.company_id', '=', 'companies.id')
             ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
             ->join('users', 'masters.user_id', '=', 'users.id')
-            ->select('masters.id', 'masters.first_name', 'masters.last_name', 'masters.city', 'masters.description',
-               'masters.img', 'masters.created_at', 'companies.company_name', 'specializations.specialization_name', 'users.name')
+            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name')
             ->where('masters.id', $master->id)
             ->get();
 

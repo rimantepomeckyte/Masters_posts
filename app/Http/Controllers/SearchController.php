@@ -38,15 +38,16 @@ class SearchController extends Controller
             $masters->where('gender', $request->gender);
         }
         if ($request->filled('search')) {
-            $masters->where('first_name', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('last_name','LIKE', '%' . $request->search . '%');
+            $masters->where('first_name', 'LIKE',  '%'  . $request->search . '%')
+                ->orWhere('last_name','LIKE',  '%' . $request->search . '%')
+            ->orWhere('specialization_name', 'LIKE',  '%' .$request->search . '%');
         }
         if ($request->filled('rating')) {
             $masters->having('ratings_average', $request->rating);//negerai cia dar
            // dd($masters);
         }
 //dd($masters);
-        return view('pages.searched-results', ['masters' => $masters->paginate(2)], compact( 'uniqueSpecializations', 'uniqueCompanies',
+        return view('pages.searched-results', ['masters' => $masters->paginate(8)], compact( 'uniqueSpecializations', 'uniqueCompanies',
             'uniqueCities', 'uniqueGender'));
     }
 }

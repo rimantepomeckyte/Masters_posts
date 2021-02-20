@@ -32,7 +32,7 @@ class MasterController extends Controller
                 'users.name as name', 'masters.created_at as created_at', DB::raw('AVG(reviews.rating) as ratings_average'),
                 DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
              ->groupBy('masters.id', 'companies.company_name', 'specializations.specialization_name', 'users.name', 'reviews.master_id')
-             //->orderBy('no_of_reviews', 'DESC')
+             ->orderBy('no_of_reviews', 'DESC')
             ->paginate(8);
 
         $uniqueCompanies  = Company::all();
@@ -117,7 +117,7 @@ class MasterController extends Controller
             ->select([DB::raw('AVG(reviews.rating) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews')])
             ->where('masters.id', $master->id)
             ->orderBy('no_of_reviews', 'DESC')
-            ->groupBy('master_id')
+            ->groupBy('master_id', 'reviews.master_id')
             ->get();
 
         return view('pages.master', compact('masters', 'comments', 'rating'));
@@ -169,7 +169,7 @@ class MasterController extends Controller
             ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name',
                 DB::raw('AVG(reviews.rating) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
             ->where('users.id', $user->id)
-            ->groupBy('masters.id', 'masters.company_id')
+            ->groupBy('masters.id','companies.company_name', 'specializations.specialization_name', 'users.name', 'reviews.master_id' )
             ->orderBy('no_of_reviews', 'DESC')
             ->paginate(8);
 

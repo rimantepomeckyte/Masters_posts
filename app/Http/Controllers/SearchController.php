@@ -43,7 +43,7 @@ class SearchController extends Controller
             ->orWhere('specialization_name', 'LIKE',  '%' .$request->search . '%');
         }
         if ($request->filled('rating')) {
-            $masters->having('ratings_average', $request->rating);//negerai cia dar
+            $masters->having(DB::raw('ROUND(AVG(reviews.rating))'), $request->rating);
            // dd($masters);
         }
 //dd($masters);

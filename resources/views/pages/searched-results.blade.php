@@ -69,10 +69,15 @@
                     <div class="col-lg-3 col-md-4 col-5">
                         @if($master->img)
                             <img src="{{$master->img}}" class="home-img" alt="profile image"/>
-                        @else
+                        @elseif($master->gender == 'vyras')
                             <img
                                 src="https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-715x657.png"
-                                class="home-img" alt="profile image"/>
+                                alt="profile image"
+                                class="home-img"/>
+                        @else
+                            <img src="https://www.pngkey.com/png/full/176-1765817_business-woman-member-icon-female.png"
+                                 alt="profile image"
+                                 style="width: 95px"/>
                         @endif
                     </div>
                     <div class="col-md-4 col-6 ml-md-3">

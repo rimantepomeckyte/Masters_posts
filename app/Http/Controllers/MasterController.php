@@ -60,6 +60,7 @@ class MasterController extends Controller
             'last-name' => 'required',
             'gender' => 'required',
             'city' => 'required',
+            'master-description'=>'required|max:500',
             //'img' => 'nullable|sometimes|image|mimes:jpeg, jpg, png, gif|max:10000'
         ]);
 

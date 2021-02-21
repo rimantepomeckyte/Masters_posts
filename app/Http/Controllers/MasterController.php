@@ -32,7 +32,7 @@ class MasterController extends Controller
                 DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
              ->groupBy('masters.id', 'companies.company_name', 'specializations.specialization_name', 'users.name', 'reviews.master_id')
              ->orderBy('no_of_reviews', 'DESC')
-            ->paginate(2);
+            ->paginate(8);
 
         $uniqueCompanies  = Company::all();
         $uniqueSpecializations  = Specialization::all();

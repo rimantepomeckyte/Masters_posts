@@ -47,7 +47,7 @@ class SearchController extends Controller
            // dd($masters);
         }
 //dd($masters);
-        return view('pages.searched-results', ['masters' => $masters->paginate(2)], compact( 'uniqueSpecializations', 'uniqueCompanies',
+        return view('pages.searched-results', ['masters' => $masters->paginate(8)], compact( 'uniqueSpecializations', 'uniqueCompanies',
             'uniqueCities', 'uniqueGender'));
     }
 }

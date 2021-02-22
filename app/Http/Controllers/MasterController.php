@@ -13,6 +13,7 @@ use File;
 use Gate;
 use Illuminate\Support\Facades\DB;
 
+
 class MasterController extends Controller
 {
     public function __construct()

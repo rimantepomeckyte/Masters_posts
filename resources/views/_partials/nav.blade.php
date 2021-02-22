@@ -25,7 +25,7 @@
                         <a class="nav-link font-weight-bold" href="/logout">Atsijungti</a>
                     </li>
                 @else
-                    <li class="nav-item"><a class="nav-link font-weight-bold" href="/login">Prisijunti</a></li>
+                    <li class="nav-item"><a class="nav-link font-weight-bold" href="/login">Prisijungti</a></li>
                     <li class="nav-item"><a class="nav-link font-weight-bold" href="/register">Registruotis</a></li>
                 @endif
             </ul>

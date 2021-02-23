@@ -11,22 +11,37 @@ use App\Specialization;
 
 class SearchController extends Controller
 {
-    public function index(Request $request, Master $master, Review $review)
+    public function index(Request $request)
     {
 
-        $masters = Master::with(['specialization', 'company', 'user'])
-            ->groupBy('masters.id')
-            ->where('company_id', $request->company_name)
-            ->orWhere('specialization_id', $request->specialization_name)
-            ->orWhere('city', $request->city)
-            ->orWhere('gender', $request->gender)
-            ->orWhere('first_name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $request->search . '%');
+        $masters = Master::with(['specialization', 'company', 'user', 'reviews'])
+            ->groupBy('masters.id');
 
-        /*if ($request->filled('rating')) {
-          $masters = Master::whereHas('reviews', function ($q) {
-              return $q->where('rating', request('rating'));
-          })->get();}*/
+        if ($request->filled('company_name')){
+            $masters->where('company_id', $request->company_name);
+        }
+        if ($request->filled('specialization_name')){
+            $masters->where('specialization_id', $request->specialization_name);
+        }
+        if ($request->filled('city')){
+            $masters->where('city', $request->city);
+        }
+        if ($request->filled('gender')){
+            $masters->where('gender', $request->gender);
+        }
+        if ($request->filled('search')) {
+            $masters->where('first_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('last_name','LIKE', '%' . $request->search . '%');
+        }
+      /*  if ($request->filled('rating')) {
+            $masters->having("ROUND(AVG('rating'))", $request->rating);//negerai cia dar
+            // dd($masters);
+        }*/
+        if ($request->filled('raiting')) {
+    $masters->whereHas('reviews', function ($query){
+        return $query->where('rating', request('raiting'));
+    });
+}
 
         // dd($review);
         // dd($masters);

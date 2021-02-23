@@ -17,23 +17,13 @@ use Illuminate\Support\Facades\DB;
 class MasterController extends Controller
 {
     public function __construct()
-    {//
+    {
         $this->middleware('auth', ['except' => ['index', 'showFull']]);//pasako kad visi metodai kurie yra cia pasiekiami tik prisijungusiam vartotojui isskyrus:...
     }
 
     public function index()
     {
-            $masters = DB::table('masters')
-            ->join('companies', 'masters.company_id', '=', 'companies.id')
-            ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
-            ->join('users', 'masters.user_id', '=', 'users.id')
-            ->leftJoin('reviews as reviews', 'masters.id', '=', 'reviews.master_id')
-            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name',
-                'users.name', DB::raw('AVG(reviews.rating) as ratings_average'),
-                DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
-             ->groupBy('masters.id', 'companies.company_name', 'specializations.specialization_name', 'users.name', 'reviews.master_id')
-             ->orderBy('no_of_reviews', 'DESC')
-            ->paginate(8);
+        $masters =Master::with(['specialization', 'company', 'reviews', 'user'])->paginate(8);
 
         $uniqueCompanies  = Company::all();
         $uniqueSpecializations  = Specialization::all();
@@ -51,7 +41,7 @@ class MasterController extends Controller
         return view('pages.add-master', compact('companies', 'specializations'));
     }
 
-    public function store(Master $master, Request $request)
+    public function store(Request $request)
     {
 
         $validation = $request->validate([
@@ -98,29 +88,7 @@ class MasterController extends Controller
 
     public function showFull(Master $master)
     {
-        $masters = DB::table('masters')
-            ->join('companies', 'masters.company_id', '=', 'companies.id')
-            ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
-            ->join('users', 'masters.user_id', '=', 'users.id')
-            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name')
-            ->where('masters.id', $master->id)
-            ->get();
-
-        $comments = DB::table('reviews')
-            ->join('masters', 'masters.id', '=', 'reviews.master_id')
-            ->select('reviews.rating', 'reviews.comment', 'reviews.created_at')
-            ->where('masters.id', $master->id)
-            ->get();
-
-        $rating = DB::table('reviews')
-            ->join('masters', 'masters.id', '=', 'reviews.master_id')
-            ->select([DB::raw('AVG(reviews.rating) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews')])
-            ->where('masters.id', $master->id)
-            ->orderBy('no_of_reviews', 'DESC')
-            ->groupBy('master_id', 'reviews.master_id')
-            ->get();
-
-        return view('pages.master', compact('masters', 'comments', 'rating'));
+        return view('pages.master', compact('master'));
     }
 
 
@@ -161,16 +129,8 @@ class MasterController extends Controller
 
     public function showByUser(User $user)
     {
-        $masters = DB::table('masters')
-            ->join('companies', 'masters.company_id', '=', 'companies.id')
-            ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
-            ->join('users', 'masters.user_id', '=', 'users.id')
-            ->leftJoin('reviews as reviews', 'masters.id', '=', 'reviews.master_id')
-            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name',
-                DB::raw('AVG(reviews.rating) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
-            ->where('users.id', $user->id)
-            ->groupBy('masters.id','companies.company_name', 'specializations.specialization_name', 'users.name', 'reviews.master_id' )
-            ->orderBy('no_of_reviews', 'DESC')
+        $masters =Master::with(['specialization', 'company', 'reviews', 'user'])
+            ->where('user_id', $user->id)
             ->paginate(8);
 
         return view('pages.byuser', compact('masters'));

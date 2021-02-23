@@ -9,7 +9,6 @@
         @endif
         @include('_partials/errors')
         <a href="{{URL::previous()}}" class="btn btn-info font-weight-bold text-white">Atgal</a>
-        @foreach($masters as $master)
             @if(Auth::check())
                 <div class="row d-flex justify-content-end">
                     <a href="/edit/master/{{$master->id}}" class="mr-3 btn btn-info">Redaguoti</a>
@@ -33,30 +32,25 @@
                 </div>
                 <div class="ml-2 col align-self-center">
                     <div class="row"><h3>{{ucfirst($master->first_name)}} {{ucfirst($master->last_name)}}</h3></div>
-                    <div class="row"><h5>{{ucfirst($master->specialization_name)}}</h5></div>
-                    <div class="row"><h5>{{ucfirst($master->company_name)}}</h5></div>
+                    <div class="row"><h5>{{ucfirst($master->specialization->specialization_name)}}</h5></div>
+                    <div class="row"><h5>{{ucfirst($master->company->company_name)}}</h5></div>
                     <div class="row"><h5>{{ucfirst($master->city)}}</h5></div>
                 </div>
             </div>
 
             <div class="row mt-1 mb-2 ml-3"><p>
                     <strong> Reitingas:</strong>
-                    @if(!!empty($rating))
-                        @foreach($rating as $value)
-                            @for ($i = 0; $i < 5; $i++)
-                                @if (floor($value->ratings_average) - $i >= 1)
-                                    {{--Full Start--}}
-                                    <i class="fas fa-star text-warning"> </i>
-                                @elseif ($value->ratings_average - $i > 0)
-                                    {{--Half Start--}}
-                                    <i class="fas fa-star-half-alt text-warning"> </i>
-                                @else
-                                    {{--Empty Start--}}
-                                    <i class="far fa-star text-warning"> </i>
-                                @endif
-                            @endfor
-                            <span>({{$value->no_of_reviews}})</span></p>
-                @endforeach
+                    @if(!empty($master->reviews))
+                        @for ($i = 0; $i < 5; $i++)
+                            @if (floor($master->reviews->avg('rating')) - $i >= 1)
+                                <i class="fas fa-star text-warning"> </i>
+                            @elseif ($master->reviews->avg('rating') - $i > 0)
+                                <i class="fas fa-star-half-alt text-warning"> </i>
+                            @else
+                                <i class="far fa-star text-warning"> </i>
+                            @endif
+                        @endfor
+                        <span>({{$master->reviews->count('rating')}})</span></p>
                 @else
                     @for ($i = 0; $i < 5; $i++)
                         <i class="far fa-star text-warning"> </i>
@@ -67,7 +61,7 @@
                 <p>{{$master->description}}</p>
             </div>
             <div class="row mx-3 mb-2">
-                <h5 class="text-secondary">Sukūrė <span class="font-italic text-white">{{$master->name}} </span>
+                <h5 class="text-secondary">Sukūrė <span class="font-italic text-white">{{$master->user->name}} </span>
                     {{Carbon\Carbon::parse($master->created_at)->diffForHumans()}}</h5>
             </div>
             <div class="border p-4">
@@ -95,16 +89,15 @@
                            class="btn btn-sm btn-outline-danger py-0" style="font-size: 1.2em;">
                 </form>
             </div>
-        @endforeach
         <div class="mt-3">
             <h4 class="font-weight-bolder">Atsiliepimai:</h4>
             <hr class="mt-0"/>
             <div class="bg-white p-2">
-                @foreach($comments as $comment)
-                    @if($comment->comment)
+                @foreach($master->reviews as $review)
+                    @if($review->comment)
                         <div>
-                            <p class="text-secondary font-italic">{{Carbon\Carbon::parse($comment->created_at)->diffForHumans()}}</p>
-                            <p>{{$comment->comment}}</p></div>
+                            <p class="text-secondary font-italic">{{Carbon\Carbon::parse($review->created_at)->diffForHumans()}}</p>
+                            <p>{{$review->comment}}</p></div>
                         <hr/>
                     @endif
                 @endforeach

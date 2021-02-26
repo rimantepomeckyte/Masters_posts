@@ -14,15 +14,26 @@ class SearchController extends Controller
     public function index(Request $request)
     {
 
-        $masters = Master::with(['specialization', 'company', 'user', 'reviews'])
-            ->groupBy('masters.id');
+   //     $masters = Master::with(['specialization', 'company', 'user', 'reviews'])
+    //        ->groupBy('masters.id');
+        $masters = DB::table('masters')
+            ->join('companies', 'masters.company_id', '=', 'companies.id')
+            ->join('specializations', 'masters.specialization_id', '=', 'specializations.id')
+            ->join('users', 'masters.user_id', '=', 'users.id')
+            ->leftJoin('reviews as reviews', 'masters.id', '=', 'reviews.master_id')
+            ->select('masters.*', 'companies.company_name', 'specializations.specialization_name', 'users.name',
+                DB::raw('ROUND(AVG(reviews.rating)) as ratings_average'), DB::raw('COUNT(reviews.rating) AS no_of_reviews'))
+            ->groupBy('masters.id', 'masters.company_id');
+        $uniqueCompanies  = Company::all();
+        $uniqueSpecializations  = Specialization::all();
+        $uniqueCities = DB::table('masters')->select('masters.city')->distinct()->get();
+        $uniqueGender = DB::table('masters')->select('masters.gender')->distinct()->get();
 
         if ($request->filled('company_name')){
-            $masters->where('company_id', $request->company_name)
-            ->groupBy('masters.id');
+            $masters->where('company_name', $request->company_name);
         }
         if ($request->filled('specialization_name')){
-            $masters->where('specialization_id', $request->specialization_name);
+            $masters->where('specialization_name', $request->specialization_name);
         }
         if ($request->filled('city')){
             $masters->where('city', $request->city);
@@ -34,23 +45,12 @@ class SearchController extends Controller
             $masters->where('first_name', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('last_name','LIKE', '%' . $request->search . '%');
         }
-        /*  if ($request->filled('rating')) {
-              $masters->having('round(AVG(rating))', $request->rating);
-            }*/
-       if ($request->filled('raiting')) {
-           $masters->whereHas('reviews', function ($query) {
-               return $query->where('ROUND(AVG(rating))', request('raiting'));
-           });
-       }
+        if ($request->filled('rating')) {
+            $masters->having('ratings_average', $request->rating);//negerai cia dar
+            // dd($masters);
+        }
 
-        // dd($review);
-        // dd($masters);
-        $uniqueCompanies = Company::all();
-        $uniqueSpecializations = Specialization::all();
-        $uniqueCities = DB::table('masters')->select('masters.city')->distinct()->get();
-        $uniqueGender = DB::table('masters')->select('masters.gender')->distinct()->get();
-
-        return view('pages.searched-results', ['masters' => $masters->paginate(8)], compact('uniqueSpecializations', 'uniqueCompanies',
-            'uniqueCities', 'uniqueGender', 'reviews'));
+        return view('pages.searched-results', ['masters' => $masters->paginate(8)], compact( 'uniqueSpecializations', 'uniqueCompanies',
+            'uniqueCities', 'uniqueGender'));
     }
 }

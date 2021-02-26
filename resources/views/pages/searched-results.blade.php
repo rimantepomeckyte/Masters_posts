@@ -13,7 +13,7 @@
                     <option value="" disabled selected>Specializacija</option>
                     @foreach($uniqueSpecializations as $specialization)
                         <option
-                            value="{{$specialization->id}}">{{ucfirst($specialization->specialization_name)}}</option>
+                            value="{{$specialization->specialization_name}}">{{ucfirst($specialization->specialization_name)}}</option>
                     @endforeach
                 </select>
             </div>
@@ -21,7 +21,7 @@
                 <select class="form-control" name="company_name">
                     <option value="" disabled selected>Įmonė</option>
                     @foreach($uniqueCompanies as $company)
-                        <option value="{{$company->id}}">{{ucfirst($company->company_name)}}</option>
+                        <option value="{{$company->company_name}}">{{ucfirst($company->company_name)}}</option>
                     @endforeach
                 </select>
             </div>
@@ -84,33 +84,33 @@
                         <div class="row font-weight-bolder"><a
                                 href="/master/{{$master->id}}">{{ucfirst($master->first_name)}} {{ucfirst($master->last_name)}}</a>
                         </div>
-                        <div class="row font-weight-bolder">{{ucfirst($master->specialization->specialization_name)}}</div>
-                        <div class="row font-weight-bolder">{{ucfirst($master->company->company_name)}}</div>
+                        <div class="row font-weight-bolder">{{ucfirst($master->specialization_name)}}</div>
+                        <div class="row font-weight-bolder">{{ucfirst($master->company_name)}}</div>
                         <div class="row font-weight-bolder">{{ucfirst($master->city)}}</div>
                     </div>
                     <div class="col-lg col-12">
                         <div class="row d-flex justify-content-end mt-3">Reitingas:
                             <div class="align-self-center ml-2">
                                 @for ($i = 0; $i < 5; $i++)
-                                    @if (floor($master->reviews->avg('rating')) - $i >= 1)
+                                    @if (floor($master->ratings_average) - $i >= 1)
                                         <i class="fas fa-star text-warning"> </i>
-                                    @elseif ($master->reviews->avg('rating') - $i > 0)
+                                    @elseif ($master->ratings_average - $i > 0)
                                         <i class="fas fa-star-half-alt text-warning"> </i>
                                     @else
                                         <i class="far fa-star text-warning"> </i>
                                     @endif
                                 @endfor
-                                <span>({{$master->reviews->count('rating')}})</span>
+                                <span>({{$master->no_of_reviews}})</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row pl-3 mb-2">
                     <p class="col text-secondary ">
-                        Sukūrė: <a href="/user/{{$master->user->user_id}}" class="font-italic">{{$master->user->name}} </a>
+                        Sukūrė: <a href="/user/{{$master->user_id}}" class="font-italic">{{$master->name}} </a>
                         {{Carbon\Carbon::parse($master->created_at)->diffForHumans()}}</p>
                     <div class="col-2 d-flex justify-content-end ">
-                        <a href="/master/{{$master->user->id}}" class="btn btn-secondary btn-more">Daugiau</a>
+                        <a href="/master/{{$master->id}}" class="btn btn-secondary btn-more">Daugiau</a>
                     </div>
                 </div>
             </div>

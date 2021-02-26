@@ -18,7 +18,8 @@ class SearchController extends Controller
             ->groupBy('masters.id');
 
         if ($request->filled('company_name')){
-            $masters->where('company_id', $request->company_name);
+            $masters->where('company_id', $request->company_name)
+            ->groupBy('masters.id');
         }
         if ($request->filled('specialization_name')){
             $masters->where('specialization_id', $request->specialization_name);

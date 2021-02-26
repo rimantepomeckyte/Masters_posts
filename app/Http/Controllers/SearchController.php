@@ -33,15 +33,14 @@ class SearchController extends Controller
             $masters->where('first_name', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('last_name','LIKE', '%' . $request->search . '%');
         }
-      /*  if ($request->filled('rating')) {
-            $masters->having("ROUND(AVG('rating'))", $request->rating);//negerai cia dar
-            // dd($masters);
-        }*/
-        if ($request->filled('raiting')) {
-    $masters->whereHas('reviews', function ($query){
-        return $query->where('rating', request('raiting'));
-    });
-}
+        /*  if ($request->filled('rating')) {
+              $masters->having('round(AVG(rating))', $request->rating);
+            }*/
+       if ($request->filled('raiting')) {
+           $masters->whereHas('reviews', function ($query) {
+               return $query->where('ROUND(AVG(rating))', request('raiting'));
+           });
+       }
 
         // dd($review);
         // dd($masters);
